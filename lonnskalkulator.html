@@ -130,7 +130,17 @@
     .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .faq-item h3 { font-size: 0.92rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
     .faq-item p { font-size: 0.84rem; color: var(--muted); line-height: 1.7; font-weight: 400; }
-    @media (max-width: 560px) { .faq-grid { grid-template-columns: 1fr; } .faq-section { padding: 40px 20px; } }
+    .related-section { background:var(--card); border-top:1px solid var(--border); padding:48px 40px; }
+    .related-inner { max-width:720px; margin:0 auto; }
+    .related-heading { font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+    .related-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .related-card { display:block; text-decoration:none; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:18px 20px; transition:border-color .15s, transform .15s; }
+    .related-card:hover { border-color:var(--border-h); transform:translateY(-2px); }
+    .related-tag { font-size:0.65rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--green); margin-bottom:6px; }
+    .related-title { font-size:0.9rem; font-weight:700; color:var(--text); margin-bottom:5px; }
+    .related-desc { font-size:0.78rem; color:var(--muted); line-height:1.5; }
+
+    @media (max-width: 560px) { .faq-grid { grid-template-columns: 1fr; } .faq-section { padding: 40px 20px; } .related-section { padding: 32px 20px; } .related-grid { grid-template-columns:1fr; } }
     @media (max-width:560px) {
       nav,.page-header,main,footer { padding-left:20px; padding-right:20px; }
       .out-grid { grid-template-columns:1fr; }
@@ -284,6 +294,34 @@
         <h3>Er kalkulatoren nøyaktig?</h3>
         <p>Kalkulatoren gir et godt estimat basert på standardfradrag for 2026. Den tar ikke hensyn til rentefradrag, BSU, fagforeningskontingent eller andre individuelle fradrag. For eksakt skatteberegning bruker du Skatteetatens egen kalkulator.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="related-section">
+  <div class="related-inner">
+    <div class="related-heading">Les også</div>
+    <div class="related-grid">
+      <a href="lonnsguide.html" class="related-card">
+        <div class="related-tag">Guide</div>
+        <div class="related-title">Gjennomsnittlig lønn i Norge 2026 – hva er god lønn?</div>
+        <div class="related-desc">Se lønnsoversikt etter bransje og utdanning, og få tips til lønnsforhandling.</div>
+      </a>
+      <a href="feriepenger.html" class="related-card">
+        <div class="related-tag">Kalkulator</div>
+        <div class="related-title">Feriepengerkalkulator 2026</div>
+        <div class="related-desc">Beregn nøyaktig hva du får utbetalt i feriepenger basert på din lønn.</div>
+      </a>
+      <a href="timelonn.html" class="related-card">
+        <div class="related-tag">Kalkulator</div>
+        <div class="related-title">Timelønnskalkulator 2026</div>
+        <div class="related-desc">Konverter mellom timelønn og årslønn – se netto etter skatt.</div>
+      </a>
+      <a href="bsu.html" class="related-card">
+        <div class="related-tag">Kalkulator</div>
+        <div class="related-title">BSU-kalkulator 2026</div>
+        <div class="related-desc">Beregn skattefradrag og total gevinst ved BSU-sparing frem til 34 år.</div>
+      </a>
     </div>
   </div>
 </section>
