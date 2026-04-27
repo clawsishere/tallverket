@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lønnskalkulator 2026 – Tallverket</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#f7f3ee; --surface:#ede8e0; --card:#ffffff;
+      --border:#e2dbd0; --border-h:#c8bfb0;
+      --shadow:0 1px 4px rgba(40,30,20,.07),0 4px 16px rgba(40,30,20,.05);
+      --text:#1c1814; --muted:#8a8278; --subtle:#c0b8ae;
+      --green:#2c6e49; --green-bg:#edf4f0; --green-lt:#d4ead9;
+      --red:#b03030; --red-bg:#fdf0f0;
+      --amber:#9a6218; --amber-bg:#fdf4e4;
+      --warn-border:#e8d8a0; --warn-bg:#fffbf0; --warn-text:#7a5510;
+    }
+    body { font-family:'Syne',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
+
+    nav { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; background:var(--card); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:10; }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .logo-mark { width:36px; height:36px; background:var(--text); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:0.7rem; font-weight:700; color:var(--bg); }
+    .logo-name { font-size:1.1rem; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+    .nav-back { font-size:0.82rem; font-weight:600; color:var(--muted); text-decoration:none; transition:color .15s; }
+    .nav-back:hover { color:var(--text); }
+
+    .page-header { max-width:720px; margin:0 auto; width:100%; padding:52px 40px 40px; border-bottom:1px solid var(--border); }
+    .eyebrow { font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:10px; }
+    .page-header h1 { font-size:2rem; font-weight:800; letter-spacing:-1px; color:var(--text); margin-bottom:8px; }
+    .page-header p { font-size:0.88rem; color:var(--muted); line-height:1.6; font-weight:400; }
+
+    main { max-width:720px; margin:0 auto; width:100%; padding:32px 40px 80px; display:flex; flex-direction:column; gap:20px; }
+
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+    .panel-head { padding:14px 24px; border-bottom:1px solid var(--border); background:var(--bg); }
+    .panel-title { font-size:0.7rem; font-weight:700; letter-spacing:1.8px; text-transform:uppercase; color:var(--muted); }
+
+    .input-wrap { padding:24px; }
+    .input-row { display:flex; align-items:center; border:1.5px solid var(--border); border-radius:9px; overflow:hidden; transition:border-color .2s; }
+    .input-row:focus-within { border-color:var(--green); }
+    .input-prefix { padding:0 16px; height:56px; display:flex; align-items:center; font-family:'Space Mono',monospace; font-size:0.75rem; font-weight:700; color:var(--green); background:var(--green-bg); border-right:1.5px solid var(--green-lt); white-space:nowrap; }
+    .input-row input { flex:1; border:none; outline:none; padding:0 18px; height:56px; font-family:'Space Mono',monospace; font-size:1.4rem; font-weight:700; color:var(--text); background:transparent; }
+
+    .slider-wrap { margin-top:18px; }
+    input[type="range"] { -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:linear-gradient(to right,var(--green) var(--pct,0%),var(--border) var(--pct,0%)); outline:none; cursor:pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--card); border:2px solid var(--green); box-shadow:0 1px 4px rgba(44,110,73,.25); cursor:pointer; }
+    .slider-labels { display:flex; justify-content:space-between; font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--subtle); margin-top:8px; }
+
+    .out-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
+    .out-cell { background:var(--card); padding:20px 24px; }
+    .out-cell.full { grid-column:1/-1; }
+    .out-cell.hero-cell { background:var(--green-bg); padding:28px 24px; }
+    .out-label { font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .out-val { font-family:'Space Mono',monospace; font-size:1.25rem; font-weight:700; color:var(--text); }
+    .out-val.big   { font-size:2.1rem; letter-spacing:-1px; color:var(--green); }
+    .out-val.green { color:var(--green); }
+    .out-val.red   { color:var(--red); }
+    .out-val.amber { color:var(--amber); }
+
+    .bar-section { padding:20px 24px; border-bottom:1px solid var(--border); }
+    .bar-track { height:10px; border-radius:5px; background:var(--surface); overflow:hidden; display:flex; }
+    .bar-seg { height:100%; transition:width .35s ease; }
+    .bar-legend { display:flex; flex-wrap:wrap; gap:16px; margin-top:12px; }
+    .legend-item { display:flex; align-items:center; gap:7px; font-size:0.75rem; color:var(--muted); font-weight:500; }
+    .legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+    .brow { display:flex; align-items:center; justify-content:space-between; padding:13px 24px; border-bottom:1px solid var(--border); font-size:0.87rem; }
+    .brow:last-child { border-bottom:none; }
+    .brow-lbl { display:flex; align-items:center; gap:10px; color:var(--muted); font-weight:400; }
+    .brow-lbl strong { color:var(--text); font-weight:600; }
+    .brow-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .brow-val { font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; }
+    .brow-val.pos { color:var(--green); }
+    .brow-val.neg { color:var(--red); }
+    .brow-val.neu { color:var(--text); }
+    .brow-val.dim { color:var(--muted); }
+    .brow.sub   { background:var(--bg); }
+    .brow.total { background:var(--green-bg); border-top:1px solid var(--green-lt); }
+    .brow.total .brow-lbl { color:var(--green); font-weight:700; }
+    .brow.total .brow-val { color:var(--green); font-size:0.95rem; }
+
+    .ferie-row { display:flex; align-items:center; justify-content:space-between; padding:22px 24px; gap:20px; }
+    .ferie-left { font-size:0.86rem; color:var(--muted); line-height:1.6; font-weight:400; }
+    .ferie-left strong { display:block; color:var(--text); font-size:0.96rem; font-weight:700; margin-bottom:4px; }
+    .ferie-right { font-family:'Space Mono',monospace; font-size:1.5rem; font-weight:700; color:var(--amber); white-space:nowrap; }
+
+    /* AD SLOT */
+    .ad-slot { background:var(--surface); border:1px dashed var(--border-h); border-radius:10px; padding:20px; text-align:center; min-height:100px; display:flex; align-items:center; justify-content:center; }
+    .ad-slot p { font-size:0.75rem; color:var(--subtle); font-weight:500; }
+
+    .disclaimer { background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; font-size:0.8rem; color:var(--warn-text); line-height:1.65; font-weight:400; }
+    .disclaimer strong { font-weight:700; }
+    .disclaimer a { color:var(--warn-text); }
+
+    footer { border-top:1px solid var(--border); background:var(--card); padding:18px 40px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-top:auto; }
+    footer span { font-size:0.72rem; color:var(--muted); font-weight:400; }
+    footer a { color:var(--muted); }
+
+    @media (max-width:560px) {
+      nav,.page-header,main,footer { padding-left:20px; padding-right:20px; }
+      .out-grid { grid-template-columns:1fr; }
+      .out-cell.full { grid-column:1; }
+      .ferie-row { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T/</div>
+    <span class="logo-name">Tallverket</span>
+  </a>
+  <a href="index.html" class="nav-back">← Alle kalkulatorer</a>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Kalkulator 01</div>
+  <h1>Lønnskalkulator</h1>
+  <p>Netto årslønn etter inntektsskatt, trinnskatt og trygdeavgift. Inntektsår 2026 — satser fra Skatteetaten.</p>
+</div>
+
+<main>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Brutto årslønn</span></div>
+    <div class="input-wrap">
+      <div class="input-row">
+        <div class="input-prefix">kr / år</div>
+        <input type="text" id="salary-input" placeholder="600 000" autocomplete="off" inputmode="numeric">
+      </div>
+      <div class="slider-wrap">
+        <input type="range" id="salary-slider" min="100000" max="2000000" step="5000" value="600000">
+        <div class="slider-labels"><span>100 000</span><span>2 000 000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AD SLOT – bytt ut med AdSense-kode -->
+  <div class="ad-slot">
+    <p>Annonseplass</p>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Resultat</span></div>
+    <div class="out-grid">
+      <div class="out-cell hero-cell full">
+        <div class="out-label">Nettolønn per år</div>
+        <div class="out-val big" id="out-netto-aar">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Per måned (netto)</div>
+        <div class="out-val green" id="out-netto-mnd">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Total skatt</div>
+        <div class="out-val red" id="out-skatt">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Effektiv skattesats</div>
+        <div class="out-val amber" id="out-eff">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Marginalskatt</div>
+        <div class="out-val" id="out-marginal">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Skatteberegning</span></div>
+    <div class="bar-section">
+      <div class="bar-track">
+        <div class="bar-seg" id="bar-netto"    style="background:#2c6e49;width:0%"></div>
+        <div class="bar-seg" id="bar-innskatt" style="background:#c87820;width:0%"></div>
+        <div class="bar-seg" id="bar-trinn"    style="background:#b03030;width:0%"></div>
+        <div class="bar-seg" id="bar-tryg"     style="background:#7a2a2a;width:0%"></div>
+      </div>
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2c6e49"></div>Nettolønn</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#c87820"></div>Inntektsskatt</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#b03030"></div>Trinnskatt</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#7a2a2a"></div>Trygdeavgift</div>
+      </div>
+    </div>
+    <div>
+      <div class="brow"><div class="brow-lbl"><div class="brow-dot" style="background:var(--border-h)"></div>Brutto årslønn</div><div class="brow-val pos" id="br-gross">—</div></div>
+      <div class="brow sub"><div class="brow-lbl"><div class="brow-dot" style="background:var(--surface)"></div>Minstefradrag (46 %, maks 92 000 kr)</div><div class="brow-val dim" id="br-minstefradrag">—</div></div>
+      <div class="brow sub"><div class="brow-lbl"><div class="brow-dot" style="background:var(--surface)"></div>Personfradrag (108 550 kr)</div><div class="brow-val dim" id="br-personfradrag">—</div></div>
+      <div class="brow"><div class="brow-lbl"><div class="brow-dot" style="background:var(--subtle)"></div><strong>Alminnelig inntekt</strong></div><div class="brow-val neu" id="br-alm">—</div></div>
+      <div class="brow"><div class="brow-lbl"><div class="brow-dot" style="background:#c87820"></div>Inntektsskatt 22 %</div><div class="brow-val neg" id="br-innskatt">—</div></div>
+      <div class="brow"><div class="brow-lbl"><div class="brow-dot" style="background:#b03030"></div>Trinnskatt</div><div class="brow-val neg" id="br-trinnskatt">—</div></div>
+      <div class="brow"><div class="brow-lbl"><div class="brow-dot" style="background:#7a2a2a"></div>Trygdeavgift 7,6 %</div><div class="brow-val neg" id="br-tryg">—</div></div>
+      <div class="brow total"><div class="brow-lbl">Nettolønn per år</div><div class="brow-val" id="br-netto">—</div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Feriepenger (estimert)</span></div>
+    <div class="ferie-row">
+      <div class="ferie-left">
+        <strong>Estimerte feriepenger</strong>
+        10,2 % av brutto lønn. Utbetales i juni og erstatter ordinær lønn den måneden.
+      </div>
+      <div class="ferie-right" id="ferie-kr">—</div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Estimat — ikke skatterådgivning.</strong> Bruker standardfradrag. Tar ikke hensyn til rentefradrag, BSU, fagforeningskontingent, formuesskatt eller andre individuelle fradrag. Faktisk skatt fastsettes av <a href="https://www.skatteetaten.no" target="_blank" rel="noopener">Skatteetaten</a>.
+  </div>
+
+</main>
+
+<footer>
+  <span>Tallverket — satser fra <a href="https://www.skatteetaten.no/satser/" target="_blank" rel="noopener">skatteetaten.no</a>, inntektsår 2026</span>
+  <span>Ingen data lagres · Ingen cookies</span>
+</footer>
+
+<script>
+  const PERSONFRADRAG=108550,MINSTEFRADRAG_PCT=.46,MINSTEFRADRAG_MIN=32000,MINSTEFRADRAG_MAX=92000,INNSKATT_PCT=.22,TRYGDEAVGIFT_PCT=.076,FERIE_PCT=.102;
+  const TRINN=[{fra:0,til:226100,sats:0},{fra:226100,til:318300,sats:.017},{fra:318300,til:725050,sats:.04},{fra:725050,til:980100,sats:.137},{fra:980100,til:1467200,sats:.168},{fra:1467200,til:Infinity,sats:.178}];
+  const trinnskatt=b=>{let t=0;for(const s of TRINN){if(b<=s.fra)break;t+=(Math.min(b,s.til)-s.fra)*s.sats;}return t;};
+  const marginal=b=>{let ts=0;for(const s of TRINN){if(b>s.fra)ts=s.sats;}return TRYGDEAVGIFT_PCT+ts+INNSKATT_PCT;};
+  function beregn(b){const mi=Math.min(Math.max(b*MINSTEFRADRAG_PCT,MINSTEFRADRAG_MIN),MINSTEFRADRAG_MAX);const al=Math.max(0,b-mi-PERSONFRADRAG);const ins=al*INNSKATT_PCT;const tr=trinnskatt(b);const tryg=b*TRYGDEAVGIFT_PCT;const tot=ins+tr+tryg;const n=b-tot;return{b,mi,al,ins,tr,tryg,tot,n,eff:tot/b,marg:marginal(b),f:b*FERIE_PCT};}
+  const kr=n=>Math.round(n).toLocaleString('nb-NO')+' kr';
+  const pct=n=>(n*100).toFixed(1).replace('.',',')+' %';
+  function render(r){
+    document.getElementById('out-netto-aar').textContent=kr(r.n);
+    document.getElementById('out-netto-mnd').textContent=kr(r.n/12);
+    document.getElementById('out-skatt').textContent=kr(r.tot);
+    document.getElementById('out-eff').textContent=pct(r.eff);
+    document.getElementById('out-marginal').textContent=pct(r.marg);
+    document.getElementById('ferie-kr').textContent=kr(r.f);
+    document.getElementById('br-gross').textContent=kr(r.b);
+    document.getElementById('br-minstefradrag').textContent='− '+kr(r.mi);
+    document.getElementById('br-personfradrag').textContent='− '+kr(PERSONFRADRAG);
+    document.getElementById('br-alm').textContent=kr(r.al);
+    document.getElementById('br-innskatt').textContent='− '+kr(r.ins);
+    document.getElementById('br-trinnskatt').textContent='− '+kr(r.tr);
+    document.getElementById('br-tryg').textContent='− '+kr(r.tryg);
+    document.getElementById('br-netto').textContent=kr(r.n);
+    document.getElementById('bar-netto').style.width=(r.n/r.b*100).toFixed(1)+'%';
+    document.getElementById('bar-innskatt').style.width=(r.ins/r.b*100).toFixed(1)+'%';
+    document.getElementById('bar-trinn').style.width=(r.tr/r.b*100).toFixed(1)+'%';
+    document.getElementById('bar-tryg').style.width=(r.tryg/r.b*100).toFixed(1)+'%';
+  }
+  const inp=document.getElementById('salary-input'),sld=document.getElementById('salary-slider');
+  const parseKr=s=>{const n=parseInt(s.replace(/[\s.]/g,'').replace(/[^0-9]/g,''),10);return isNaN(n)?null:n;};
+  const fmtKr=n=>Math.round(n).toLocaleString('nb-NO');
+  const setG=v=>sld.style.setProperty('--pct',((v-100000)/1900000*100).toFixed(1)+'%');
+  inp.addEventListener('input',()=>{const v=parseKr(inp.value);if(v&&v>0){sld.value=Math.min(Math.max(v,100000),2000000);setG(+sld.value);render(beregn(v));}});
+  inp.addEventListener('blur',()=>{const v=parseKr(inp.value);if(v)inp.value=fmtKr(v);});
+  sld.addEventListener('input',()=>{const v=+sld.value;inp.value=fmtKr(v);setG(v);render(beregn(v));});
+  const init=600000;inp.value=fmtKr(init);sld.value=init;setG(init);render(beregn(init));
+</script>
+</body>
+</html>
