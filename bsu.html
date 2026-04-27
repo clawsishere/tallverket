@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSU-kalkulator 2026 – Beregn skattefradrag og total sparing | Tallverket</title>
+  <meta name="description" content="Beregn skattefradraget du får ved BSU-sparing i 2026. Se total gevinst og akkumulert sparing frem til fylte 34 år. Gratis BSU-kalkulator med oppdaterte satser.">
+  <meta name="keywords" content="BSU kalkulator 2026, boligsparing ungdom, BSU skattefradrag, BSU beregning, boligsparing kalkulator, BSU gevinst, BSU rente">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Tallverket">
+  <link rel="canonical" href="https://tallverket.onrender.com/bsu.html">
+  <meta property="og:title" content="BSU-kalkulator 2026 – Skattefradrag og total sparing">
+  <meta property="og:description" content="Beregn BSU-skattefradrag og se total gevinst frem til fylte 34. Gratis kalkulator.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tallverket.onrender.com/bsu.html">
+  <meta property="og:locale" content="nb_NO">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "BSU-kalkulator 2026",
+    "description": "Beregn skattefradrag og total gevinst ved BSU-sparing. Oppdatert med satser for 2026.",
+    "url": "https://tallverket.onrender.com/bsu.html",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "inLanguage": "nb-NO",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NOK" },
+    "publisher": { "@type": "Organization", "name": "Tallverket" }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#f7f3ee; --surface:#ede8e0; --card:#ffffff;
+      --border:#e2dbd0; --border-h:#c8bfb0;
+      --shadow:0 1px 4px rgba(40,30,20,.07),0 4px 16px rgba(40,30,20,.05);
+      --text:#1c1814; --muted:#8a8278; --subtle:#c0b8ae;
+      --plum:#6b3fa0; --plum-bg:#f3edfb; --plum-lt:#ddd0f5;
+      --green:#2c6e49; --green-bg:#edf4f0;
+      --amber:#9a6218; --amber-bg:#fdf4e4;
+      --warn-border:#e8d8a0; --warn-bg:#fffbf0; --warn-text:#7a5510;
+    }
+    body { font-family:'Syne',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
+
+    nav { display:flex; align-items:center; justify-content:space-between; padding:18px 40px; background:var(--card); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:10; }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .logo-mark { width:36px; height:36px; background:var(--text); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:0.7rem; font-weight:700; color:var(--bg); }
+    .logo-name { font-size:1.1rem; font-weight:800; color:var(--text); letter-spacing:-0.5px; }
+    .nav-back { font-size:0.82rem; font-weight:600; color:var(--muted); text-decoration:none; transition:color .15s; }
+    .nav-back:hover { color:var(--text); }
+
+    .page-header { max-width:720px; margin:0 auto; width:100%; padding:52px 40px 40px; border-bottom:1px solid var(--border); }
+    .eyebrow { font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--plum); margin-bottom:10px; }
+    .page-header h1 { font-size:2rem; font-weight:800; letter-spacing:-1px; color:var(--text); margin-bottom:8px; }
+    .page-header p { font-size:0.88rem; color:var(--muted); line-height:1.6; font-weight:400; }
+
+    main { max-width:720px; margin:0 auto; width:100%; padding:32px 40px 80px; display:flex; flex-direction:column; gap:20px; }
+
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); }
+    .panel-head { padding:14px 24px; border-bottom:1px solid var(--border); background:var(--bg); }
+    .panel-title { font-size:0.7rem; font-weight:700; letter-spacing:1.8px; text-transform:uppercase; color:var(--muted); }
+
+    .input-wrap { padding:24px; display:flex; flex-direction:column; gap:20px; }
+
+    .field-group { display:flex; flex-direction:column; gap:8px; }
+    .field-label { font-size:0.78rem; font-weight:600; color:var(--muted); }
+    .field-label span { font-family:'Space Mono',monospace; font-size:0.72rem; color:var(--subtle); float:right; }
+
+    .input-row { display:flex; align-items:center; border:1.5px solid var(--border); border-radius:9px; overflow:hidden; transition:border-color .2s; }
+    .input-row:focus-within { border-color:var(--plum); }
+    .input-prefix { padding:0 16px; height:52px; display:flex; align-items:center; font-family:'Space Mono',monospace; font-size:0.75rem; font-weight:700; color:var(--plum); background:var(--plum-bg); border-right:1.5px solid var(--plum-lt); white-space:nowrap; }
+    .input-row input { flex:1; border:none; outline:none; padding:0 18px; height:52px; font-family:'Space Mono',monospace; font-size:1.3rem; font-weight:700; color:var(--text); background:transparent; }
+
+    .slider-wrap { margin-top:4px; }
+    input[type="range"] { -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:linear-gradient(to right,var(--plum) var(--pct,0%),var(--border) var(--pct,0%)); outline:none; cursor:pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:var(--card); border:2px solid var(--plum); box-shadow:0 1px 4px rgba(107,63,160,.25); cursor:pointer; }
+    .slider-labels { display:flex; justify-content:space-between; font-family:'Space Mono',monospace; font-size:0.7rem; color:var(--subtle); margin-top:8px; }
+
+    .out-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
+    .out-cell { background:var(--card); padding:20px 24px; }
+    .out-cell.full { grid-column:1/-1; }
+    .out-cell.hero-cell { background:var(--plum-bg); padding:28px 24px; }
+    .out-label { font-size:0.68rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .out-val { font-family:'Space Mono',monospace; font-size:1.25rem; font-weight:700; color:var(--text); }
+    .out-val.big { font-size:2.1rem; letter-spacing:-1px; color:var(--plum); }
+    .out-val.plum { color:var(--plum); }
+    .out-val.green { color:var(--green); }
+    .out-val.amber { color:var(--amber); }
+    .out-sub { font-size:0.75rem; color:var(--muted); margin-top:4px; font-weight:400; }
+
+    .brow { display:flex; align-items:center; justify-content:space-between; padding:13px 24px; border-bottom:1px solid var(--border); font-size:0.87rem; }
+    .brow:last-child { border-bottom:none; }
+    .brow-lbl { color:var(--muted); font-weight:400; }
+    .brow-val { font-family:'Space Mono',monospace; font-size:0.85rem; font-weight:700; }
+    .brow-val.pos { color:var(--plum); }
+    .brow-val.green { color:var(--green); }
+    .brow.total { background:var(--plum-bg); border-top:1px solid var(--plum-lt); }
+    .brow.total .brow-lbl { color:var(--plum); font-weight:700; }
+    .brow.total .brow-val { color:var(--plum); font-size:0.95rem; }
+
+    .info-box { background:var(--plum-bg); border:1px solid var(--plum-lt); border-radius:10px; padding:20px 24px; }
+    .info-box-title { font-size:0.78rem; font-weight:700; color:var(--plum); margin-bottom:10px; letter-spacing:0.3px; }
+    .info-rules { display:flex; flex-direction:column; gap:8px; }
+    .info-rule { display:flex; gap:12px; align-items:flex-start; font-size:0.82rem; color:var(--muted); line-height:1.5; }
+    .info-rule-dot { width:6px; height:6px; border-radius:50%; background:var(--plum); margin-top:6px; flex-shrink:0; }
+
+    .ad-wrap { }
+    .ad-label { display:block; font-size:0.62rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--subtle); text-align:center; margin-bottom:6px; }
+    .ad-slot { min-height:90px; background:var(--surface); border:1px dashed var(--border-h); border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+
+    .disclaimer { background:var(--warn-bg); border:1px solid var(--warn-border); border-radius:10px; padding:16px 20px; font-size:0.8rem; color:var(--warn-text); line-height:1.65; font-weight:400; }
+    .disclaimer strong { font-weight:700; }
+    .disclaimer a { color:var(--warn-text); }
+
+    footer { border-top:1px solid var(--border); background:var(--card); padding:18px 40px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-top:auto; }
+    footer span { font-size:0.72rem; color:var(--muted); font-weight:400; }
+    footer a { color:var(--muted); }
+
+    .faq-section { background:var(--surface); border-top:1px solid var(--border); padding:64px 40px; }
+    .faq-inner { max-width:720px; margin:0 auto; }
+    .faq-inner h2 { font-size:1.3rem; font-weight:800; letter-spacing:-0.5px; color:var(--text); margin-bottom:32px; }
+    .faq-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .faq-item h3 { font-size:0.92rem; font-weight:700; color:var(--text); margin-bottom:8px; }
+    .faq-item p { font-size:0.84rem; color:var(--muted); line-height:1.7; font-weight:400; }
+
+    @media (max-width:560px) {
+      nav,.page-header,main,footer { padding-left:20px; padding-right:20px; }
+      .out-grid { grid-template-columns:1fr; }
+      .out-cell.full { grid-column:1; }
+      .faq-grid { grid-template-columns:1fr; }
+      .faq-section { padding:40px 20px; }
+    }
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5231519367776100" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T/</div>
+    <span class="logo-name">Tallverket</span>
+  </a>
+  <a href="index.html" class="nav-back">← Alle kalkulatorer</a>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Kalkulator 04</div>
+  <h1>BSU-kalkulator</h1>
+  <p>Beregn skattefradraget du får i år og se total gevinst ved BSU-sparing frem til fylte 34. Inntektsår 2026.</p>
+</div>
+
+<main>
+
+  <div class="info-box">
+    <div class="info-box-title">BSU-regler 2026</div>
+    <div class="info-rules">
+      <div class="info-rule"><div class="info-rule-dot"></div><span>Maks sparebeløp per år: <strong style="color:var(--text)">27 500 kr</strong></span></div>
+      <div class="info-rule"><div class="info-rule-dot"></div><span>Skattefradrag: <strong style="color:var(--text)">10 %</strong> av sparebeløpet (maks 2 750 kr i år)</span></div>
+      <div class="info-rule"><div class="info-rule-dot"></div><span>Maksimal total BSU-saldo: <strong style="color:var(--text)">300 000 kr</strong></span></div>
+      <div class="info-rule"><div class="info-rule-dot"></div><span>Kan brukes frem til fylte <strong style="color:var(--text)">34 år</strong></span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Dine opplysninger</span></div>
+    <div class="input-wrap">
+
+      <div class="field-group">
+        <div class="field-label">Din alder <span id="alder-vis">25 år</span></div>
+        <div class="slider-wrap">
+          <input type="range" id="alder-slider" min="18" max="33" step="1" value="25">
+          <div class="slider-labels"><span>18 år</span><span>33 år</span></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Sparebeløp per år <span id="sparing-vis">27 500 kr</span></div>
+        <div class="slider-wrap">
+          <input type="range" id="sparing-slider" min="1000" max="27500" step="500" value="27500">
+          <div class="slider-labels"><span>1 000 kr</span><span>27 500 kr</span></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Rente på BSU-konto <span id="rente-vis">4,0 %</span></div>
+        <div class="slider-wrap">
+          <input type="range" id="rente-slider" min="1" max="8" step="0.5" value="4">
+          <div class="slider-labels"><span>1 %</span><span>8 %</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ad-wrap">
+    <span class="ad-label">Annonse</span>
+    <div class="ad-slot">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5231519367776100"
+           data-ad-slot="1961854514"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Resultat</span></div>
+    <div class="out-grid">
+      <div class="out-cell hero-cell full">
+        <div class="out-label">Total gevinst ved 34 år</div>
+        <div class="out-val big" id="out-total-verdi">—</div>
+        <div class="out-sub" id="out-sub">inkl. renter og skattefradrag</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Skattefradrag i år</div>
+        <div class="out-val plum" id="out-fradrag-aar">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Antall år igjen</div>
+        <div class="out-val" id="out-aar-igjen">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Total innbetalt</div>
+        <div class="out-val" id="out-innbetalt">—</div>
+      </div>
+      <div class="out-cell">
+        <div class="out-label">Totale renter</div>
+        <div class="out-val green" id="out-renter">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head"><span class="panel-title">Gevinst fordelt</span></div>
+    <div>
+      <div class="brow"><div class="brow-lbl">Innbetalte kr</div><div class="brow-val" id="br-innbetalt">—</div></div>
+      <div class="brow"><div class="brow-lbl">Opptjente renter</div><div class="brow-val green" id="br-renter">—</div></div>
+      <div class="brow"><div class="brow-lbl">Totalt skattefradrag (alle år)</div><div class="brow-val pos" id="br-fradrag-tot">—</div></div>
+      <div class="brow total"><div class="brow-lbl">Total verdi ved 34 år</div><div class="brow-val" id="br-total">—</div></div>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>Estimat — ikke finansrådgivning.</strong> Beregningen forutsetter konstant rente og maksimal utnyttelse hvert år. Faktisk rente varierer. Sjekk din bank for gjeldende BSU-rente. Skattefradraget forutsetter at du har skattbar inntekt som dekker fradraget.
+  </div>
+
+</main>
+
+<section class="faq-section">
+  <div class="faq-inner">
+    <h2>Vanlige spørsmål om BSU</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>Hva er BSU?</h3>
+        <p>BSU (Boligsparing for Ungdom) er en skattefavorisert sparekonto for deg under 34 år. Du får 10 % skattefradrag på det du setter inn hvert år, maks 2 750 kr i skattefradrag. Maksimalt 27 500 kr per år og totalt 300 000 kr på kontoen.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Hva er BSU-renten i 2026?</h3>
+        <p>BSU-renten varierer fra bank til bank og endres over tid. Typisk ligger den mellom 3–5 %. Sjekk Finansportalen.no for å sammenligne BSU-renter fra ulike banker og finn den beste renten akkurat nå.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Kan jeg bruke BSU til annet enn bolig?</h3>
+        <p>Nei — bruker du pengene til noe annet enn kjøp eller nedbetaling av bolig, må du tilbakebetale alle skattefradragene du har fått. BSU er utelukkende øremerket boligformål.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Hva skjer når jeg fyller 34?</h3>
+        <p>Etter fylte 34 kan du ikke lenger sette inn nye midler på BSU-kontoen. Pengene som allerede står der er fortsatt dine og kan brukes til boligkjøp eller nedbetaling av boliglån uten skattekonsekvenser.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Tallverket — satser fra <a href="https://www.skatteetaten.no/satser/" target="_blank" rel="noopener">skatteetaten.no</a>, inntektsår 2026</span>
+  <span>Ingen data lagres · Ingen cookies</span>
+</footer>
+
+<script>
+  const BSU_SATS = 0.10;
+  const BSU_MAX_AAR = 27500;
+  const BSU_MAX_TOT = 300000;
+
+  const kr = n => Math.round(n).toLocaleString('nb-NO') + ' kr';
+
+  function beregn(alder, sparing, rente) {
+    const aarIgjen = 34 - alder;
+    const fradragAar = sparing * BSU_SATS;
+    let saldo = 0;
+    let totalInnbetalt = 0;
+    let totalFradrag = 0;
+
+    for (let i = 0; i < aarIgjen; i++) {
+      const innbetaling = Math.min(sparing, BSU_MAX_TOT - saldo);
+      if (innbetaling <= 0) break;
+      saldo += innbetaling;
+      saldo *= (1 + rente / 100);
+      totalInnbetalt += innbetaling;
+      totalFradrag += innbetaling * BSU_SATS;
+    }
+
+    const renter = saldo - totalInnbetalt;
+    const totalVerdi = saldo + totalFradrag;
+
+    return { fradragAar, aarIgjen, totalInnbetalt, renter, totalFradrag, saldo, totalVerdi };
+  }
+
+  function render(r) {
+    document.getElementById('out-total-verdi').textContent = kr(r.totalVerdi);
+    document.getElementById('out-fradrag-aar').textContent = kr(r.fradragAar);
+    document.getElementById('out-aar-igjen').textContent = r.aarIgjen + ' år';
+    document.getElementById('out-innbetalt').textContent = kr(r.totalInnbetalt);
+    document.getElementById('out-renter').textContent = kr(r.renter);
+    document.getElementById('br-innbetalt').textContent = kr(r.totalInnbetalt);
+    document.getElementById('br-renter').textContent = kr(r.renter);
+    document.getElementById('br-fradrag-tot').textContent = kr(r.totalFradrag);
+    document.getElementById('br-total').textContent = kr(r.totalVerdi);
+  }
+
+  const alderSlider = document.getElementById('alder-slider');
+  const sparingSlider = document.getElementById('sparing-slider');
+  const renteSlider = document.getElementById('rente-slider');
+
+  function setSliderPct(el, min, max) {
+    const pct = ((el.value - min) / (max - min) * 100).toFixed(1);
+    el.style.setProperty('--pct', pct + '%');
+  }
+
+  function update() {
+    const alder = +alderSlider.value;
+    const sparing = +sparingSlider.value;
+    const rente = +renteSlider.value;
+
+    document.getElementById('alder-vis').textContent = alder + ' år';
+    document.getElementById('sparing-vis').textContent = Math.round(sparing).toLocaleString('nb-NO') + ' kr';
+    document.getElementById('rente-vis').textContent = rente.toFixed(1).replace('.', ',') + ' %';
+
+    setSliderPct(alderSlider, 18, 33);
+    setSliderPct(sparingSlider, 1000, 27500);
+    setSliderPct(renteSlider, 1, 8);
+
+    render(beregn(alder, sparing, rente));
+  }
+
+  alderSlider.addEventListener('input', update);
+  sparingSlider.addEventListener('input', update);
+  renteSlider.addEventListener('input', update);
+
+  update();
+</script>
+</body>
+</html>

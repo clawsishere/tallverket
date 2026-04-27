@@ -127,6 +127,7 @@
     .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .ad-wrap { max-width:880px; margin:0 auto 8px; padding:0 40px; }
     .ad-label { display:block; font-size:0.62rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--subtle); text-align:center; margin-bottom:6px; }
+    .ad-slot { min-height:280px; background:var(--surface); border:1px dashed var(--border-h); border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
 
     .calc-card {
       display: block; text-decoration: none;
@@ -208,12 +209,14 @@
 
 <div class="ad-wrap">
   <span class="ad-label">Annonse</span>
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-format="autorelaxed"
-       data-ad-client="ca-pub-5231519367776100"
-       data-ad-slot="6778547406"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  <div class="ad-slot">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-format="autorelaxed"
+         data-ad-client="ca-pub-5231519367776100"
+         data-ad-slot="6778547406"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 </div>
 
 <section class="grid-section">
